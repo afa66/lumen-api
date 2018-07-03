@@ -32,6 +32,7 @@ $app->configure('custom');
 $app->configure('wechat');
 $app->configure('database');
 $app->configure('auth');
+$app->configure('cors');
 
 /*
 |--------------------------------------------------------------------------
