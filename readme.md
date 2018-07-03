@@ -1,10 +1,10 @@
 # 基于lumen搭建的小程序Api开发框架
 
-###基本组件
+### 基本组件
 1. DingoApi
 2. Jwt-Auth
 3. Easywechat
-4.laravel-cors
+4. laravel-cors
 
 ### 功能
 1. 小程序登录,刷新token,退出
