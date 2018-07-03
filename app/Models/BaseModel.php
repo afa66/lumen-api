@@ -11,5 +11,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class BaseModel extends Model
 {
-
+	public function __construct()
+	{
+		// 根据环境变量切换数据库连接
+		if (app()->environment() === 'production') {
+			$this->connection = 'production';
+		}
+	}
 }

@@ -71,6 +71,7 @@ $app->singleton(
 
 $app->routeMiddleware([
 	'auth' => App\Http\Middleware\Authenticate::class,
+	'cors' => \Barryvdh\Cors\HandleCors::class,
 ]);
 
 /*
@@ -90,6 +91,8 @@ $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 // 注册dingo
 $app->register(App\Providers\DingoServiceProvider::class);
+// 注册cors
+$app->register(Barryvdh\Cors\ServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

@@ -20,11 +20,8 @@ class DingoServiceProvider extends ServiceProvider
 	 */
 	public function register()
 	{
-
 		// 注册Dingo服务
 		$this->app->register(\Dingo\Api\Provider\LumenServiceProvider::class);
-
-
 	}
 
 	/**
@@ -34,6 +31,7 @@ class DingoServiceProvider extends ServiceProvider
 	 */
 	public function boot()
 	{
+		// 使用jwt认证
 		app('Dingo\Api\Auth\Auth')->extend('jwt', function ($app) {
 			return new \Dingo\Api\Auth\Provider\JWT($app['Tymon\JWTAuth\JWTAuth']);
 		});

@@ -10,21 +10,6 @@ use Tymon\JWTAuth\JWTAuth;
 
 class AuthController extends BaseController
 {
-	public function index(Request $request)
-	{
-//		$this->toValidate($request, [
-//			'xid' => 'required'
-//		]);
-
-		$user = User::findOrFail(1);
-		if (!$token = Auth::fromUser($user)) {
-			return $this->response->errorUnauthorized('用户信息不正确');
-		}
-
-		return $this->respondWithToken($token);
-	}
-
-
 	public function store(Request $request)
 	{
 		$this->toValidate($request, [
