@@ -11,7 +11,9 @@
         "dingo/api": "v2.0.0-alpha2",
         "tymon/jwt-auth": "1.0.0-rc.2",
         "overtrue/wechat": "~4.0",
-        "barryvdh/laravel-cors": "^0.11.0"
+        "barryvdh/laravel-cors": "^0.11.0",
+        "illuminate/redis": "5.5.*",
+        "predis/predis": "^1.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
