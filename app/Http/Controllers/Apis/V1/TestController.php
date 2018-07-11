@@ -9,11 +9,14 @@ namespace App\Http\Controllers\Apis\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
 
 class TestController extends Controller
 {
 	public function index()
 	{
-		return 'this is test controller';
+		return Cache::remember('test', 1, function (){
+			return 'this is test controller';
+		});
 	}
 }
