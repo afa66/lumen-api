@@ -15,8 +15,15 @@ class TestController extends Controller
 {
 	public function index()
 	{
-		return Cache::remember('test', 1, function (){
-			return 'this is test controller';
+		return Cache::remember('test-v1', 1, function (){
+			return 'this is test controller v1';
+		});
+	}
+
+	public function index2()
+	{
+		return Cache::remember('test-v2', 1, function (){
+			return 'this is test controller v2';
 		});
 	}
 }

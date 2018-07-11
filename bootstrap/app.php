@@ -95,6 +95,8 @@ $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 $app->register(App\Providers\DingoServiceProvider::class);
 // 注册cors
 $app->register(Barryvdh\Cors\ServiceProvider::class);
+// 注册laravel-s
+$app->register(Hhxsv5\LaravelS\Illuminate\LaravelSServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -112,6 +114,7 @@ $app->router->group([
 ], function ($router) {
 	require __DIR__ . '/../routes/web.php';
 	require __DIR__ . '/../routes/apis/v1.php';
+	require __DIR__ . '/../routes/apis/v2.php';
 });
 
 return $app;
