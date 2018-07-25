@@ -12,12 +12,13 @@ $api->version('v1', [
 ], function ($api) {
 	$api->get('test', 'TestController@index');
 	$api->post('authorizations', 'AuthController@store');
+	$api->put('authorizations', 'AuthController@update');
+
 	$api->group([
 		'middleware' => ['api.throttle', 'api.auth'],
 		'limit'      => 1, // expires设置的时间内,能请求的次数
 		'expires'    => 1, // 分钟
 	], function ($api) {
-		$api->put('authorizations', 'AuthController@update');
 		$api->delete('authorizations', 'AuthController@destory');
 	});
 
