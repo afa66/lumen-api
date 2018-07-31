@@ -20,7 +20,10 @@ class AppServiceProvider extends ServiceProvider
 	{
 		$this->app->configureMonologUsing(function(\Monolog\Logger $monoLog) {
 			return $monoLog->pushHandler(
-				new \Monolog\Handler\RotatingFileHandler($this->app->storagePath().'/logs/log.log',5)
+				new \Monolog\Handler\RotatingFileHandler(
+					$this->app->storagePath().'/logs/day.log',
+					30
+				)
 			);
 		});
     }

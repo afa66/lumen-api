@@ -12,24 +12,38 @@ use App\Http\Controllers\Controller;
 use Dingo\Api\Exception\ValidationHttpException;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class BaseController extends Controller
 {
-	use Helpers;
-
 	public function __construct(Request $request)
 	{
-		$this->toValidate($request, [
-			'xid' => 'required'
-		]);
 	}
-
 
 	protected function toValidate($request, $rules, $messages = [])
 	{
 		$validator = \Validator::make($request->all(), $rules, $messages);
 		if ($validator->fails()) {
-			throw new ValidationHttpException($validator->errors()->toArray());
+			throw new ValidationException($validator);
 		}
+	}
+
+	protected function success($data = [], $statusCode = 200)
+	{
+		$response['status_code'] = $statusCode;
+		$response['message'] = 'success';
+		if (!empty($data)) {
+			$response['data'] = $data;
+		}
+
+		return response()->json($response)->setStatusCode($statusCode);
+	}
+
+	protected function fail($messsage, $statusCode = 422)
+	{
+		return response()->json([
+			'status_code' => $statusCode,
+			'message' => $messsage
+		])->setStatusCode($statusCode);
 	}
 }

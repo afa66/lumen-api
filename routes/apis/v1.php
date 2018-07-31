@@ -5,22 +5,20 @@
  * Date: 2018/7/2
  * Time: 上午9:39
  */
-var_dump(1111);
-$api = app(Dingo\Api\Routing\Router::class);
-$api->version('v1', [
-	'namespace'  => 'App\Http\Controllers\Apis\V1',
-	'middleware' => 'cors'
-], function ($api) {
-	$api->get('test', 'TestController@index');
-	$api->post('authorizations', 'AuthController@store');
-	$api->put('authorizations', 'AuthController@update');
 
-	$api->group([
-		'middleware' => ['api.throttle', 'api.auth'],
-		'limit'      => 1, // expires设置的时间内,能请求的次数
-		'expires'    => 1, // 分钟
-	], function ($api) {
-		$api->delete('authorizations', 'AuthController@destory');
+$router->group([
+	'namespace' => 'Apis\V1',
+	'prefix' => 'v1',
+], function () use($router) {
+	$router->get('login-test', 'TestController@test');
+	$router->get('test', 'TestController@index');
+	// jwt
+	$router->post('authorizations', 'AuthController@store');
+	$router->put('authorizations', 'AuthController@update');
+	$router->delete('authorizations', 'AuthController@destory');
+	$router->group([
+		'middleware' => 'auth'
+	], function () use ($router) {
+		$router->get('test3', 'TestController@index3');
 	});
-
 });

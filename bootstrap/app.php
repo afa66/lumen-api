@@ -66,13 +66,13 @@ $app->singleton(
 |
 */
 
-// $app->middleware([
-//    App\Http\Middleware\ExampleMiddleware::class
-// ]);
+ $app->middleware([
+//    App\Http\Middleware\ApiVersionMiddleware::class,
+    Barryvdh\Cors\HandleCors::class,
+ ]);
 
 $app->routeMiddleware([
 	'auth' => App\Http\Middleware\Authenticate::class,
-	'cors' => \Barryvdh\Cors\HandleCors::class,
 ]);
 
 /*
@@ -86,17 +86,16 @@ $app->routeMiddleware([
 |
 */
 $app->register(App\Providers\AppServiceProvider::class);
-$app->register(App\Providers\AuthServiceProvider::class);
+//$app->register(App\Providers\AuthServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Illuminate\Redis\RedisServiceProvider::class);
 // 注册jwt
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
-// 注册dingo
-$app->register(App\Providers\DingoServiceProvider::class);
 // 注册cors
 $app->register(Barryvdh\Cors\ServiceProvider::class);
 // 注册laravel-s
 $app->register(Hhxsv5\LaravelS\Illuminate\LaravelSServiceProvider::class);
+$app->register(App\Providers\ApiVersionServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
