@@ -9,7 +9,6 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Tymon\JWTAuth\Providers\Auth\Illuminate;
 
 class DingoServiceProvider extends ServiceProvider
 {
@@ -38,6 +37,13 @@ class DingoServiceProvider extends ServiceProvider
 		// 开启访问节流
 		$this->app['Dingo\Api\Http\RateLimit\Handler']->extend(function () {
 			return new \Dingo\Api\Http\RateLimit\Throttle\Authenticated;
+		});
+		// 自定义ModelNotFoundException异常响应
+		app('Dingo\Api\Exception\Handler')->register(function (\Illuminate\Database\Eloquent\ModelNotFoundException $exception) {
+			return response()->json([
+				'status_code' => 404,
+				'message' => '未找到对应的数据',
+			], JSON_UNESCAPED_UNICODE);
 		});
 	}
 }

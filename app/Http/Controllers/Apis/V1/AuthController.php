@@ -17,28 +17,41 @@ class AuthController extends BaseController
 			'encryptedData' => 'required',
 			'iv'            => 'required',
 		]);
-		
-		$config = config('wechat.mini_program');
-		$app = Factory::miniProgram($config);
+
+		$app = $this->miniProgramApp();
 
 		$sessionKey = $app->auth->session($request->code);
-		$userInfo = $app->encryptor->decryptData(
-			$sessionKey['session_key'], $request->iv, $request->encryptedData
-		);
+		try {
+			$userInfo = $app->encryptor->decryptData(
+				$sessionKey['session_key'], $request->iv, $request->encryptedData
+			);
+		} catch (\Exception $e) {
+			abort(500, '解密session_key失败');
+		}
 
-		$user = User::updateOrCreate([
-			'open_id'     => $userInfo['open_id'],
-			'union_id'    => $userInfo['union_id'] ?? '',
-			'session_key' => $sessionKey['session_key'],
-		], [
-			'nick_name'  => $userInfo['nickName'],
-			'gender'     => $userInfo['gender'],
-			'language'   => $userInfo['language'],
-			'city'       => $userInfo['city'],
-			'province'   => $userInfo['province'],
-			'country'    => $userInfo['country'],
-			'avatar_url' => $userInfo['avatarUrl'],
-		]);
+		$user = User::where('open_id', $userInfo['open_id'])->first();
+
+		if (!$user) {
+			$user              = new User();
+			$user->open_id     = $userInfo['openId'];
+			$user->union_id    = $userInfo['unionId'] ?? null;
+			$user->session_key = $sessionKey['session_key'];
+			$user->nick_name   = $userInfo['nickName'];
+			$user->gender      = $userInfo['gender'];
+			$user->language    = $userInfo['language'];
+			$user->city        = $userInfo['city'];
+			$user->province    = $userInfo['province'];
+			$user->country     = $userInfo['country'];
+			$user->avatar_url  = $userInfo['avatar_url'];
+		} else {
+			// 如初期没有绑定开放平台,后期需补绑union_id
+//			if ($user->union_id === null) {
+//				$user->union_id = $userInfo['union_id'];
+//			}
+		}
+
+		$user->save();
+
 		if (!$token = Auth::login($user)) {
 			return $this->response->errorUnauthorized('登录失败');
 		}
@@ -62,11 +75,11 @@ class AuthController extends BaseController
 
 	protected function respondWithToken($token)
 	{
-		return $this->response->array([
+		return $this->success([
 			'access_token' => $token,
 			'token_type'   => 'Bearer',
 			'expired_at'   => time() + \Auth::factory()->getTTl() * 60,
-		]);
+		], 201);
 	}
 
 }
