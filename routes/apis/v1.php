@@ -16,10 +16,9 @@ $api->version('v1', [
 
 	$api->group([
 		'middleware' => ['api.throttle', 'api.auth'],
-		'limit'      => 1, // expires设置的时间内,能请求的次数
+		'limit'      => 10, // expires设置的时间内,能请求的次数
 		'expires'    => 1, // 分钟
 	], function ($api) {
 		$api->delete('authorizations', 'AuthController@destory');
 	});
-
 });
