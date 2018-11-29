@@ -28,7 +28,6 @@ $app->withFacades();
 $app->withEloquent();
 
 // 加载配置文件
-$app->configure('custom');
 $app->configure('wechat');
 $app->configure('database');
 $app->configure('auth');
