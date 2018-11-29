@@ -70,6 +70,7 @@ return [
             'timezone'  => env('DB_TIMEZONE', '+00:00'),
             'strict'    => env('DB_STRICT_MODE', false),
         ],
+
 		'production' => [
 			'driver'    => 'mysql',
 			'host'      => env('DB_HOST', 'localhost'),
@@ -83,6 +84,7 @@ return [
 			'timezone'  => env('DB_TIMEZONE', '+00:00'),
 			'strict'    => env('DB_STRICT_MODE', false),
 		],
+
         'pgsql' => [
             'driver'   => 'pgsql',
             'host'     => env('DB_HOST', 'localhost'),
